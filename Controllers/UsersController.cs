@@ -87,19 +87,25 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            var users =  _userService.GetAll();
-            var userDtos = _mapper.Map<IList<UserDto>>(users);
-            return Ok(userDtos);
-        }
+        // [HttpGet]
+        // public IActionResult GetAll()
+        // {
+        //     var users =  _userService.GetAll();
+        //     var userDtos = _mapper.Map<IList<UserDto>>(users);
+        //     return Ok(userDtos);
+        // }
 
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
             var user =  _userService.GetById(id);
             var userDto = _mapper.Map<UserDto>(user);
+                
+            foreach (var todoItem in user.TodoItems)
+            {
+                todoItem.User = null;
+            }
+            
             return Ok(userDto);
         }
 

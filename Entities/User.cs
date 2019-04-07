@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace WebApi.Entities
 {
     public class User
@@ -8,5 +10,7 @@ namespace WebApi.Entities
         public string Username { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
+
+        public IEnumerable<TodoItem> TodoItems { get; set; }
     }
 }

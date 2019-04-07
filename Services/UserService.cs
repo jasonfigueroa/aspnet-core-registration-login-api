@@ -1,21 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using WebApi.Entities;
 using WebApi.Helpers;
+using WebApi.Interfaces;
 
 namespace WebApi.Services
 {
-    public interface IUserService
-    {
-        User Authenticate(string username, string password);
-        IEnumerable<User> GetAll();
-        User GetById(int id);
-        User Create(User user, string password);
-        void Update(User user, string password = null);
-        void Delete(int id);
-    }
-
     public class UserService : IUserService
     {
         private DataContext _context;
@@ -44,14 +36,15 @@ namespace WebApi.Services
             return user;
         }
 
-        public IEnumerable<User> GetAll()
-        {
-            return _context.Users;
-        }
+        // DO NOT DELETE
+        // public IEnumerable<User> GetAll()
+        // {
+        //     return _context.Users;
+        // }
 
         public User GetById(int id)
         {
-            return _context.Users.Find(id);
+            return _context.Users.Include(u => u.TodoItems).Where(u => u.Id == id).FirstOrDefault();
         }
 
         public User Create(User user, string password)
